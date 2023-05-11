@@ -1,0 +1,392 @@
+/* =============================================================================
+  #RESET
+============================================================================= */
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0;margin:0 0 1em}
+
+
+/* =============================================================================
+  #TOOLS
+============================================================================= */
+html { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+*, *:before, *:after { -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit; }
+
+/* =============================================================================
+  #CSS VARIABLES
+============================================================================= */
+:root {
+  --background-color: #0D0F13;
+  --text-color: #FFF;
+
+  --default-font-size: 1.4rem;
+  --default-font-size-small: 1.2rem;
+  --small-font-size: 1.1rem;
+
+  --default-padding: 1.5rem;
+
+  --default-font: 'Verdana', sans-serif;
+}
+
+/* =============================================================================
+  #GENERAL
+============================================================================= */
+* {
+    font-family: inherit;
+    line-height: inherit;
+    color: inherit;
+}
+
+html {
+    min-height: 100%;
+    height: 100%;
+}
+
+body {
+    position: relative;
+
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+
+    font-family: var(--default-font);
+    font-size: var(--default-font-size);
+    color: var(--text-color);
+  
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    padding: 5rem;
+
+    background-color: var(--background-color);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    max-width: 75rem;
+    margin: 0 auto;
+}
+
+.video-container::before {
+    pointer-events: none;
+    content: "";
+    position: absolute;
+    background-color: rgb(255 220 65 / 49%);
+
+    z-index: 500;
+
+    opacity: 0;
+
+}
+
+body:has(p.audio-cue--bottom.on) .video-container::before {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 20%;
+    background: linear-gradient(0deg, rgb(255 225 84 / 85%) 0%, rgba(27,29,41,0) 82%);
+}
+
+body:has(p.audio-cue--right.on) .video-container::before {
+    bottom: 0;
+    top: 0;
+    right: 0;
+
+    height: 100%;
+    width: 20%;
+    background: linear-gradient(-90deg, rgb(255 225 84 / 85%) 0%, rgba(27,29,41,0) 82%);
+}
+
+body:has(p.audio-cue.on) .video-container::before {
+  opacity: 100%;
+}
+body:has(p.audio-cue.on.off) .video-container::before {
+  opacity: 0%;
+}
+
+
+/* =============================================================================
+  #UTILITIES
+============================================================================= */
+hr {
+  margin: 20px 0;
+
+  height: 4px;
+
+  background-color: #21242C;
+  border: none;
+  border-radius: 5px;
+}
+/* =============================================================================
+  #TYPOGRAPHY
+============================================================================= */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  line-height: 1.1;
+
+  font-weight: 800;
+  color: var(--text-color);
+}
+
+p + p {
+  margin-top: .75rem;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+}
+
+.video-container {
+  position: relative;
+
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+}
+
+  .video-container .video {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+  }
+
+  .cc {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 2rem;
+
+    text-align: center;
+
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+    .cc__item {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+
+      transform: translateX(-50%);
+
+      display: inline-block;
+      color: #FFF;
+
+      opacity: 0;
+      transition: .05s;
+
+      max-width: 40%;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cc__item p {
+      /* width: 100%; */
+      padding: .3rem .5rem;
+
+      border-radius: .15rem;
+      background-color: rgba(0, 0, 0, .75);
+
+      display: none;
+      opacity: 0;
+      transition: .05s;
+    }
+
+    .cc__item.on .shouting {
+      transform: scale(1);
+      animation: slam .3s ease-in-out;
+    }
+
+    .cc__item.on,
+    .cc__item.on p.on {
+      opacity: 1;
+    }
+
+    .cc__item p.on {
+      display: inline-block;
+    }
+
+    .cc__item.on + .cc__item.on {
+      margin-top: .75rem;
+    }
+
+    .cc__item.off,
+    .cc__item p.off {
+      transition: .05s;
+      opacity: 0!important;
+    }
+
+    p.off {
+      display: none;
+    }
+
+    .cc__speaker {
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+      
+      font-size: var(--default-font-size-small);
+      font-weight: 700;
+      text-transform: uppercase;
+
+      margin-bottom: .3125rem;
+    }
+
+    .uppercase .cc__text,
+    .audio .cc__text,
+    .cc__extra {
+      text-transform: uppercase;
+    }
+
+    .ytp-expand-pause-overlay .ytp-pause-overlay {
+      display: none!important;
+    }
+
+    .small {
+      font-size: 1rem;
+      /* font-size: var(--default-font-size-small); */
+    }
+
+    .small .cc__speaker {
+      font-size: .8rem;
+      /* font-size: var(--small-font-size); */
+    }
+
+    /* regular speech icon above text */
+    .icon {
+      /* display: none!important; */
+
+      font-size: 1rem;
+      /* font-size: var(--default-font-size-small); */
+
+      padding: 0.5rem;
+
+      border-radius: 0.15rem;
+      background-color: rgba(0, 0, 0, .5);
+    }
+
+      .icon i + span {
+        margin-left: .3125rem;
+      }
+
+      /* speech icon text */
+      .icon span {
+        text-transform: uppercase;
+      }
+
+      /* inline speech icon */
+      .icon--inline {
+        display: none!important;
+        margin-right: .25rem;
+      }
+
+      /* phone icon bottom left */
+      .icon.icon--phone {
+        display: flex!important;
+        align-items: center;
+        gap: .7rem;
+        position: absolute;
+        bottom: 4.5rem;
+
+        left: 50%;
+        transform: translate(-50%, 0);
+        
+        font-size: 1rem;
+        /* clip-path: inset(0px 0px 0px 0px); */
+
+        transition: all 400ms ease-in-out;
+      }
+
+      .icon.icon--phone.bottom {
+        bottom: -5rem;
+      }
+
+        .icon--phone img {
+          width: 1.4rem;
+          height: 1.4rem;
+        }
+
+      .icon.icon--phone.hide {
+        display: none!important;
+      }
+
+        .icon--phone.active img {
+            animation: shake .5s linear infinite;
+        }
+
+    @keyframes shake {
+      0% { transform: rotate(0); }
+      20% { transform: rotate(-15deg); }
+      40% { transform: rotate(15deg); }
+      60% { transform: rotate(-15deg); }
+      80% { transform: rotate(15deg); }
+      100% { transform: rotate(0); }
+    }
+
+    @keyframes phoneShake {
+      0% {
+          -webkit-transform: rotate(-15deg);
+          transform: rotate(-15deg);
+      }
+      4% {
+          -webkit-transform: rotate(15deg);
+          transform: rotate(15deg);
+      }
+      8%, 24% {
+          -webkit-transform: rotate(-18deg);
+          transform: rotate(-18deg);
+      }
+      12%, 28% {
+          -webkit-transform: rotate(18deg);
+          transform: rotate(18deg);
+      }
+      16% {
+          -webkit-transform: rotate(-22deg);
+          transform: rotate(-22deg);
+      }
+      20% {
+          -webkit-transform: rotate(22deg);
+          transform: rotate(22deg);
+      }
+      32% {
+          -webkit-transform: rotate(-12deg);
+          transform: rotate(-12deg);
+      }
+      36% {
+          -webkit-transform: rotate(12deg);
+          transform: rotate(12deg);
+      }
+      40%, 100% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+      }
+    }
+
+    @keyframes slam {
+      0% {
+        transform: scale(3);
+      }
+
+      60% {
+        transform: scale(0.7);
+      }
+
+      80% {
+        transform: scale(1.1);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
